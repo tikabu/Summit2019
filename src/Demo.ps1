@@ -12,3 +12,6 @@ get-device
 ([system.appdomain]::CurrentDomain.GetAssemblies() | where location -like '*glueapi*').gettypes() | where name -eq 'AdDomainApiViewModel'
 (([system.appdomain]::CurrentDomain.GetAssemblies() | where location -like '*glueapi*').gettypes() | where name -eq 'AdDomainApiViewModel').getmembers() | ft name, membertype
 (([system.appdomain]::CurrentDomain.GetAssemblies() | where location -like '*glueapi*').gettypes() | where name -eq 'DeviceApiViewModel1').getmembers() | ft name, membertype
+
+
+autorest --powershell --input-file:./swagger.json --clear-output-folder --namespace:Glue.Api --use=@microsoft.azure/autorest.powershell@2.0.370
