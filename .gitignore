@@ -1,0 +1,4 @@
+## Exclude autorest generated folder except for the custom folder
+
+/**/[Gg]enerated/*
+!/**/[Cc]ustom/
