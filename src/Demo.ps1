@@ -67,3 +67,25 @@ get-device
 
 # Tag version of autorest extension
 autorest --powershell --input-file:./swagger.json --clear-output-folder --namespace:Glue.Api --use=@microsoft.azure/autorest.powershell@2.0.370
+
+# Produce SDK for another language
+
+autorest --python --input-file:./xkcd.yaml --clear-output-folder
+
+<#--csharp                      generate C# client code
+  --go                          generate Go client code
+  --java                        generate Java client code
+  --python                      generate Python client code
+  --nodejs                      generate NodeJS client code
+  --typescript                  generate TypeScript client code
+  --ruby                        generate Ruby client code
+  --php                         generate PHP client code
+  --azureresourceschema         generate Azure resource schemas
+  --model-validator             validates an OpenAPI document against linked examples (see https://github.com/Azure/azure-rest-api-specs/search?q=x-ms-examples )
+  --azure-validator             validates an OpenAPI document against guidelines to improve quality (and optionally Azure guidelines)
+#>
+
+# (.md) markdown -- a literate configuration file, with triple-backtick YAML or JSON code blocks. 
+# Literate configuration files have the advantage of being able to mix documentation and settings easily, 
+# and code blocks can be turned on and off with your own switches.
+# https://github.com/Azure/autorest/blob/master/docs/user/configuration.md
