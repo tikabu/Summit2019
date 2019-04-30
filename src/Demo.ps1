@@ -15,7 +15,7 @@ Get-XkcdComic | Format-List *
 ([system.appdomain]::CurrentDomain.GetAssemblies() | Where-Object location -like '*xkcd*').gettypes()
 (([system.appdomain]::CurrentDomain.GetAssemblies() | Where-Object location -like '*xkcd*').gettypes() | Where-Object name -eq 'comic').getmembers() | Format-Table name, membertype
 
-invoke-webrequest (Get-XkcdComic).img -outfile image.png ; & ./image.png
+invoke-webrequest (Get-XkcdComic -comicid 327).img -outfile image.png ; & ./image.png
 
 $cred = Import-Clixml "~\gallery_creds.xml"
 #Update nuspec
@@ -26,17 +26,25 @@ nuget.exe push -Source "SummitGallery" -ApiKey AzureDevOps .\generated\bin\xkcd.
 
 start C:\Users\AdamMurray\Documents\PowerShell\Modules
 
+# Note in version 1.40 of package management that was demonstrated during Monday's lightning demos cache's creds
 find-module -Repository PSSummit2019 -Credential $cred xkcd | install-module -Credential $cred
 
+# Modules are built against PSStandard 2.0 and are therefore compatible with 5.1 and 6.x
+# Run Windows PowerShell 5.1
+find-module -Repository PSSummit2019 -Credential $cred xkcd | install-module -Credential $cred -scope currentuser
 
 
 
-#Our real world example - Glue Demo
+
+# Our real world example - Glue Demo
+start https://github.com/domaindrivendev/Swashbuckle.AspNetCore
+start https://petstore.swagger.io/?_ga=2.136014196.450501745.1556597163-482371795.1555332727
 
 Invoke-WebRequest -uri http://localhost:50436/swagger/v1/swagger.json -OutFile swagger.json -UseDefaultCredentials -AllowUnencryptedAuthentication
 
-#Custom folder gives you extensibility
-#We can use this to implement authentication
+# Custom folder gives you extensibility
+# We can use this to implement authentication
+# Walk through Module.cs in the custom folder
 
 autorest --powershell --input-file:./swagger.json --clear-output-folder --namespace:Glue.Api
 .\generated\build-module.ps1 -run
@@ -52,10 +60,10 @@ get-device
 (([system.appdomain]::CurrentDomain.GetAssemblies() | Where-Object location -like '*glueapi*').gettypes() | Where-Object name -eq 'DeviceApiViewModel1').getmembers() | Format-Table name, membertype
 
 
-#Generate Help
+# Generate Help
 .\generated\generate-help.ps1
 
-#Readme.md can contain module configuration
+# Readme.md can contain module configuration
 
-#Tag version of autorest extension
+# Tag version of autorest extension
 autorest --powershell --input-file:./swagger.json --clear-output-folder --namespace:Glue.Api --use=@microsoft.azure/autorest.powershell@2.0.370
