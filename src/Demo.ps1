@@ -1,6 +1,12 @@
 Set-Location C:\repos\Summit2019\src\xkcd
 # https://apis.guru/browse-apis/
+
+# Swagger UI
+# https://petstore.swagger.io/?_ga=2.232371231.1855476143.1556683098-574006975.1556683098
 # Look at Yaml
+
+irm http://xkcd.com/info.0.json
+irm http://xkcd.com/327/info.0.json
 
 autorest --help
 
@@ -18,14 +24,14 @@ Get-XkcdComic | Format-List *
 ([system.appdomain]::CurrentDomain.GetAssemblies() | Where-Object location -like '*xkcd*').gettypes()
 (([system.appdomain]::CurrentDomain.GetAssemblies() | Where-Object location -like '*xkcd*').gettypes() | Where-Object name -eq 'comic').getmembers() | Format-Table name, membertype
 
-invoke-webrequest (Get-XkcdComic -comicid 327).img -outfile image.png ; & ./image.png
+start (Get-XkcdComic -comicid 327).img
 
 $cred = Import-Clixml "~\gallery_creds.xml"
 #Update nuspec
 .\generated\pack-module.ps1
 
 Start-Process 'https://dev.azure.com/apr2019/Workshop/_packaging?_a=feed&feed=Test'
-nuget.exe push -Source "SummitGallery" -ApiKey AzureDevOps .\generated\bin\xkcd.0.1.1.nupkg
+nuget.exe push -Source "SummitGallery" -ApiKey AzureDevOps .\generated\bin\xkcd.0.1.2.nupkg
 
 Start-Process C:\Users\AdamMurray\Documents\PowerShell\Modules
 
@@ -43,6 +49,7 @@ find-module -Repository PSSummit2019 -Credential $cred xkcd | install-module -Cr
 # We use swashbuckle to automtically generate our openapi spec and create a gui
 # https://github.com/domaindrivendev/Swashbuckle.AspNetCore
 
+cd c:\repos\Summit2019_muzz
 Start-Process http://localhost:50436/swagger/index.html
 
 Invoke-WebRequest -uri http://localhost:50436/swagger/v1/swagger.json -OutFile swagger.json -UseDefaultCredentials -AllowUnencryptedAuthentication
@@ -56,8 +63,18 @@ autorest --powershell --input-file:./swagger.json --clear-output-folder --namesp
 
 get-addomain
 
-get-device
+# Switch to using oAuth authentication to Azure
 
+# (.md) markdown -- a literate configuration file, with triple-backtick YAML or JSON code blocks. 
+# Literate configuration files have the advantage of being able to mix documentation and settings easily, 
+# and code blocks can be turned on and off with your own switches.
+# https://github.com/Azure/autorest/blob/master/docs/user/configuration.md
+
+# Autorest by default looks for readme.md
+# Open readme.md
+git clean -fxd
+
+autorest
 
 connect-glue -Path C:\Users\AdamMurray\glue_client_secret.xml
 $devices = get-device
@@ -93,7 +110,4 @@ autorest --python --input-file:./xkcd.yaml --clear-output-folder
   --azure-validator             validates an OpenAPI document against guidelines to improve quality (and optionally Azure guidelines)
 #>
 
-# (.md) markdown -- a literate configuration file, with triple-backtick YAML or JSON code blocks. 
-# Literate configuration files have the advantage of being able to mix documentation and settings easily, 
-# and code blocks can be turned on and off with your own switches.
-# https://github.com/Azure/autorest/blob/master/docs/user/configuration.md
+
