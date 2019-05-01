@@ -78,18 +78,9 @@ git clean -fxd
 autorest
 
 connect-glue -Path C:\Users\AdamMurray\glue_client_secret.xml
-$devices = get-device
-$devices.count
-$danger = $devices | Where-Object -not VmsIsPresent | Where-Object -not AvIsPresent
-$danger.count
-$danger | Select-Object Hostname, OperatingSystem -first 20
-$danger | Group-Object OperatingSystem | Sort-Object count -Descending
-
 
 # Generate Help
 .\generated\generate-help.ps1
-
-# Readme.md can contain module configuration
 
 # Tag version of autorest extension
 autorest --powershell --input-file:./swagger.json --clear-output-folder --namespace:Glue.Api --use=@microsoft.azure/autorest.powershell@2.0.370
