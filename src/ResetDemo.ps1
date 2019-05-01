@@ -2,10 +2,14 @@ uninstall-module xkcd -Force
 #Remove xkcd from Azure Devops - https://dev.azure.com/apr2019/Workshop/_packaging?_a=feed&feed=Test
 rm C:\Users\AdamMurray\Documents\WindowsPowerShell\modules\xkcd -recurse -force
 
-rm C:\repos\Summit2019\src\xkcd\generated -Recurse -Force
+cd C:\repos\Summit2019
+git clean -fxd
+cd C:\repos\Summit2019_muzz
+git clean -fxd
 
-code c:\repos\summit2019
-code c:\repos\summit2019_muzz
+
+code C:\repos\Summit.code-workspace
+
 
 Clear-Host
 "Ready to go"

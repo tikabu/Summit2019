@@ -1,6 +1,9 @@
 Set-Location C:\repos\Summit2019\src\xkcd
 # https://apis.guru/browse-apis/
 # Look at Yaml
+
+autorest --help
+
 autorest --powershell --input-file:./xkcd.yaml --clear-output-folder
 
 #Look at Generated folder
@@ -21,10 +24,10 @@ $cred = Import-Clixml "~\gallery_creds.xml"
 #Update nuspec
 .\generated\pack-module.ps1
 
-start 'https://dev.azure.com/apr2019/Workshop/_packaging?_a=feed&feed=Test'
+Start-Process 'https://dev.azure.com/apr2019/Workshop/_packaging?_a=feed&feed=Test'
 nuget.exe push -Source "SummitGallery" -ApiKey AzureDevOps .\generated\bin\xkcd.0.1.1.nupkg
 
-start C:\Users\AdamMurray\Documents\PowerShell\Modules
+Start-Process C:\Users\AdamMurray\Documents\PowerShell\Modules
 
 # Note in version 1.40 of package management that was demonstrated during Monday's lightning demos cache's creds
 find-module -Repository PSSummit2019 -Credential $cred xkcd | install-module -Credential $cred
@@ -40,7 +43,7 @@ find-module -Repository PSSummit2019 -Credential $cred xkcd | install-module -Cr
 # We use swashbuckle to automtically generate our openapi spec and create a gui
 # https://github.com/domaindrivendev/Swashbuckle.AspNetCore
 
-start http://localhost:50436/swagger/index.html
+Start-Process http://localhost:50436/swagger/index.html
 
 Invoke-WebRequest -uri http://localhost:50436/swagger/v1/swagger.json -OutFile swagger.json -UseDefaultCredentials -AllowUnencryptedAuthentication
 
@@ -56,10 +59,13 @@ get-addomain
 get-device
 
 
-[system.appdomain]::CurrentDomain.GetAssemblies() | Where-Object location -like '*glueapi*'
-([system.appdomain]::CurrentDomain.GetAssemblies() | Where-Object location -like '*glueapi*').gettypes() | Where-Object name -eq 'AdDomainApiViewModel'
-(([system.appdomain]::CurrentDomain.GetAssemblies() | Where-Object location -like '*glueapi*').gettypes() | Where-Object name -eq 'AdDomainApiViewModel').getmembers() | Format-Table name, membertype
-(([system.appdomain]::CurrentDomain.GetAssemblies() | Where-Object location -like '*glueapi*').gettypes() | Where-Object name -eq 'DeviceApiViewModel').getmembers() | Format-Table name, membertype
+connect-glue -Path C:\Users\AdamMurray\glue_client_secret.xml
+$devices = get-device
+$devices.count
+$danger = $devices | Where-Object -not VmsIsPresent | Where-Object -not AvIsPresent
+$danger.count
+$danger | Select-Object Hostname, OperatingSystem -first 20
+$danger | Group-Object OperatingSystem | Sort-Object count -Descending
 
 
 # Generate Help
