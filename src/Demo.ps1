@@ -1,4 +1,15 @@
 Set-Location C:\repos\Summit2019\src\xkcd
+
+## Requirements
+#  Use of the beta version of autorest.powershell requires the following:
+#  
+#  Node.js LTS (10.15.x LTS preferred. Will not function with a Node version less than 10.x. Be wary of 11.x builds as they may introduce instability or breaking changes. )  
+#  AutoRest v3 beta:
+#  npm install -g autorest@beta
+#  PowerShell 6.1 or greater
+#  .NET Core SDK 2 or greater
+
+
 # https://apis.guru/browse-apis/
 
 # Swagger UI
