@@ -1,6 +1,6 @@
 Set-Location C:\repos\Summit2019\src\xkcd
-
-#Look at Yaml
+# https://apis.guru/browse-apis/
+# Look at Yaml
 autorest --powershell --input-file:./xkcd.yaml --clear-output-folder
 
 #Look at Generated folder
@@ -22,7 +22,7 @@ $cred = Import-Clixml "~\gallery_creds.xml"
 .\generated\pack-module.ps1
 
 start 'https://dev.azure.com/apr2019/Workshop/_packaging?_a=feed&feed=Test'
-nuget.exe push -Source "SummitGallery" -ApiKey AzureDevOps .\generated\bin\xkcd.0.1.0.nupkg
+nuget.exe push -Source "SummitGallery" -ApiKey AzureDevOps .\generated\bin\xkcd.0.1.1.nupkg
 
 start C:\Users\AdamMurray\Documents\PowerShell\Modules
 
@@ -37,8 +37,10 @@ find-module -Repository PSSummit2019 -Credential $cred xkcd | install-module -Cr
 
 
 # Our real world example - Glue Demo
-start https://github.com/domaindrivendev/Swashbuckle.AspNetCore
-start https://petstore.swagger.io/?_ga=2.136014196.450501745.1556597163-482371795.1555332727
+# We use swashbuckle to automtically generate our openapi spec and create a gui
+# https://github.com/domaindrivendev/Swashbuckle.AspNetCore
+
+start http://localhost:50436/swagger/index.html
 
 Invoke-WebRequest -uri http://localhost:50436/swagger/v1/swagger.json -OutFile swagger.json -UseDefaultCredentials -AllowUnencryptedAuthentication
 
@@ -57,7 +59,7 @@ get-device
 [system.appdomain]::CurrentDomain.GetAssemblies() | Where-Object location -like '*glueapi*'
 ([system.appdomain]::CurrentDomain.GetAssemblies() | Where-Object location -like '*glueapi*').gettypes() | Where-Object name -eq 'AdDomainApiViewModel'
 (([system.appdomain]::CurrentDomain.GetAssemblies() | Where-Object location -like '*glueapi*').gettypes() | Where-Object name -eq 'AdDomainApiViewModel').getmembers() | Format-Table name, membertype
-(([system.appdomain]::CurrentDomain.GetAssemblies() | Where-Object location -like '*glueapi*').gettypes() | Where-Object name -eq 'DeviceApiViewModel1').getmembers() | Format-Table name, membertype
+(([system.appdomain]::CurrentDomain.GetAssemblies() | Where-Object location -like '*glueapi*').gettypes() | Where-Object name -eq 'DeviceApiViewModel').getmembers() | Format-Table name, membertype
 
 
 # Generate Help
