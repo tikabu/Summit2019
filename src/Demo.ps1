@@ -5,8 +5,8 @@ Set-Location C:\repos\Summit2019\src\xkcd
 # https://petstore.swagger.io/?_ga=2.232371231.1855476143.1556683098-574006975.1556683098
 # Look at Yaml
 
-irm http://xkcd.com/info.0.json
-irm http://xkcd.com/327/info.0.json
+Invoke-RestMethod http://xkcd.com/info.0.json
+Invoke-RestMethod http://xkcd.com/327/info.0.json
 
 autorest --help
 
@@ -33,26 +33,25 @@ $cred = Import-Clixml "~\gallery_creds.xml"
 Start-Process 'https://dev.azure.com/apr2019/Workshop/_packaging?_a=feed&feed=Test'
 nuget.exe push -Source "SummitGallery" -ApiKey AzureDevOps .\generated\bin\xkcd.0.1.2.nupkg
 
-Start-Process C:\Users\AdamMurray\Documents\PowerShell\Modules
+Start-Process C:\Users\AdamMurray\Documents\WindowsPowerShell\Modules
 
 # Note in version 1.40 of package management that was demonstrated during Monday's lightning demos cache's creds
-find-module -Repository PSSummit2019 -Credential $cred xkcd | install-module -Credential $cred
 
 # Modules are built against PSStandard 2.0 and are therefore compatible with 5.1 and 6.x
 # Run Windows PowerShell 5.1
 find-module -Repository PSSummit2019 -Credential $cred xkcd | install-module -Credential $cred -scope currentuser
 
-
+Start-Process C:\Users\AdamMurray\Documents\WindowsPowerShell\Modules
 
 
 # Our real world example - Glue Demo
 # We use swashbuckle to automtically generate our openapi spec and create a gui
 # https://github.com/domaindrivendev/Swashbuckle.AspNetCore
 
-cd c:\repos\Summit2019_muzz
+cd C:\repos\Summit2019_muzz\Glue_Demo
 Start-Process http://localhost:50436/swagger/index.html
 
-Invoke-WebRequest -uri http://localhost:50436/swagger/v1/swagger.json -OutFile swagger.json -UseDefaultCredentials -AllowUnencryptedAuthentication
+#Invoke-WebRequest -uri http://localhost:50436/swagger/v1/swagger.json -OutFile swagger.json -UseDefaultCredentials -AllowUnencryptedAuthentication
 
 # Custom folder gives you extensibility
 # We can use this to implement authentication
