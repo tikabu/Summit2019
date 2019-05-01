@@ -1,3 +1,4 @@
+c:\repos\summit2019\src\ResetDemo.ps1
 Set-Location C:\repos\Summit2019\src\xkcd
 Invoke-RestMethod http://xkcd.com/info.0.json
 Invoke-RestMethod http://xkcd.com/327/info.0.json

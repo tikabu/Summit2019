@@ -37,12 +37,11 @@ Get-XkcdComic | Format-List *
 
 start (Get-XkcdComic -comicid 327).img
 
-$cred = Import-Clixml "~\gallery_creds.xml"
 #Update nuspec
 .\generated\pack-module.ps1
 
 Start-Process 'https://dev.azure.com/apr2019/Workshop/_packaging?_a=feed&feed=Test'
-nuget.exe push -Source "SummitGallery" -ApiKey AzureDevOps .\generated\bin\xkcd.0.1.2.nupkg
+nuget.exe push -Source "SummitGallery" -ApiKey AzureDevOps .\generated\bin\xkcd.0.1.0.nupkg
 
 Start-Process C:\Users\AdamMurray\Documents\WindowsPowerShell\Modules
 
@@ -70,9 +69,15 @@ Start-Process http://localhost:50436/swagger/index.html
 # Set environment variable for negotiate
 $env:NegotiateAuth = $true
 autorest --powershell --input-file:./swagger.json --clear-output-folder --namespace:Glue.Api
+
+# Run fiddler
 .\generated\build-module.ps1 -run
 
+Get-command -module GlueApi
+help get-addomain
 get-addomain
+get-addomain -id 1
+
 
 $env:NegotiateAuth = ''
 # Switch to using oAuth authentication to Azure

@@ -11,6 +11,6 @@ git clean -fxd
 
 code C:\repos\Summit.code-workspace
 
-
+cd C:\repos\Summit2019\src\xkcd
 Clear-Host
 "Ready to go"
