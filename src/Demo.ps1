@@ -57,12 +57,14 @@ Invoke-WebRequest -uri http://localhost:50436/swagger/v1/swagger.json -OutFile s
 # Custom folder gives you extensibility
 # We can use this to implement authentication
 # Walk through Module.cs in the custom folder
-
+# Set environment variable for negotiate
+$env:NegotiateAuth = $true
 autorest --powershell --input-file:./swagger.json --clear-output-folder --namespace:Glue.Api
 .\generated\build-module.ps1 -run
 
 get-addomain
 
+$env:NegotiateAuth = ''
 # Switch to using oAuth authentication to Azure
 
 # (.md) markdown -- a literate configuration file, with triple-backtick YAML or JSON code blocks. 
